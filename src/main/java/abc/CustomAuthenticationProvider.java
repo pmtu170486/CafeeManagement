@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider
 {
-		@Override
 		public Authentication authenticate(Authentication authentication) throws AuthenticationException
 		{
 				String userName = authentication.getName();
@@ -24,8 +23,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 
 				if (authorizedUser(userName, password))
 				{
-						List<GrantedAuthority> grantedAuths = new ArrayList<>();
-						grantedAuths.add(()-> {return "AUTH_USER";});
+						List<GrantedAuthority> grantedAuths = new ArrayList();
+						//grantedAuths.add(()-> {return "AUTH_USER";});
 						Authentication auth = new UsernamePasswordAuthenticationToken(userName, password, grantedAuths);
 						System.out.println(auth.getAuthorities());
 						return auth;
@@ -44,7 +43,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
 				return false;
 		}
 
-		@Override
 		public boolean supports(Class<?> authentication)
 		{
 				return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
